@@ -1,4 +1,8 @@
-import { createApp } from 'vue'
-import GeneralPage from "@/GeneralPage";
+import  {createApp} from "vue";
+import App from './App';
+import router from "./router/router";
 
-createApp(GeneralPage).mount('#app')
+
+createApp(App)
+    .use(router)
+    .mount('#app')
