@@ -29,9 +29,9 @@
 
     <div class="flex-contanier flex-contanier2">
       <div class="reristration">
-        <input placeholder="UserName">
-        <input placeholder="Password"><br>
-        <second-button style="width: 200px; margin-left: 17%">Войти</second-button>
+        <input v-model="login" placeholder="UserName">
+        <input v-model="password" type="password" placeholder="Password"><br>
+        <second-button style="width: 200px; margin-left: 17%" @click="setGeneralPage">Войти</second-button>
         <br>
         <div style="font-size: 14px">Если у вас нет аккаунта,<a @click="$router.push('/registration')">зарегистрируйся</a></div>
       </div>
@@ -63,23 +63,49 @@
 <script>
 import SecondButton from "@/components/SecondButton";
 import FirstButton from "@/components/FirstButton";
-
+import $ from 'jquery'
 
 export default {
+
   components: {
 
     SecondButton,
     FirstButton
   },
+
+  name: "GeneralPage",
   data() {
     return {
-
+        login: '',
+        password: '',
     }
   },
-  methods: {
-
-
+  methods:{
+    setGeneralPage() {
+      $.ajax({
+        url: "http://127.0.0.1:8000/auth/token/create",
+        type: "POST",
+        data: {
+            UserName: this.login,
+            Password: this.password
+        },
+        success: (responce) => {
+            console.log(responce)
+        },
+        error: (responce) => {
+            console.log(responce)
+        }
+      })
+    },
   }
+
+//  name_1: "Home",
+//  methods:{
+//    gologin(){
+//        this.$router.push({name: "Login"})
+//    }
+//  }
+
 }
 </script>
 

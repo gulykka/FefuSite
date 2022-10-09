@@ -5,6 +5,7 @@ import RegistrationPage from "@/pages/RegistrationPage";
 const routes = [
     {
       path: '/',
+      name: "GeneralPage",
       component: GeneralPage
     },
     {

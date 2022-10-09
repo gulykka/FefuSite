@@ -7,6 +7,7 @@ class ProfileAdmin(admin.ModelAdmin):
     list_display_links = ('id', 'username',)
 
 
+
 class PublicatonAdmin(admin.ModelAdmin):
     list_display = ('id', 'author', 'character', 'category', 'content', 'created_at', 'update_at', 'photo',)
     list_display_links = ('id', 'author')
