@@ -1,5 +1,4 @@
 <template>
-
   <div class="general-contanier">
     <div class="flex-contanier navbar">
       <div class="flex-item element1">
@@ -8,27 +7,14 @@
       <div class="second-contanier flex-item ">
         <first-button
             class="element2"
-            @click="showDialog">
+            @click="$router.push('/registration')">
+
           Регистрация
         </first-button>
-        <dialog-window v-model:show="dialogVisible">
-          <div class="authorization" id="it1">
-            <div class="form aut_item">
-              <input placeholder="UserName">
-              <input placeholder="Number">
-              <input placeholder="Korpus">
-              <input placeholder="Password">
-              <input placeholder="Password again"><br>
-              <second-button style="width: 200px;">Зарегистрироваться</second-button>
-            </div>
-            <div class="aut_item">
-              <img style="width: 700px" src="@/assets/ref-img.png">
-            </div>
-          </div>
-        </dialog-window>
+
         <first-button
             class="element2"
-            href=" http://localhost:8080"
+            @click="$router.push('/')"
         >
           Авторизация
         </first-button>
@@ -40,58 +26,70 @@
         </first-button>
       </div>
     </div>
+
     <div class="flex-contanier flex-contanier2">
       <div class="reristration">
         <input placeholder="UserName">
         <input placeholder="Password"><br>
         <second-button style="width: 200px; margin-left: 17%">Войти</second-button>
         <br>
-        <div style="font-size: 14px">Если у вас нет аккаунта,<a @click="showDialog">зарегистрируйся</a></div>
+        <div style="font-size: 14px">Если у вас нет аккаунта,<a @click="$router.push('/registration')">зарегистрируйся</a></div>
       </div>
       <div class="text">Будь с нами,<br>
         зарегистрируйся!
       </div>
     </div>
-
+    <div class="base" id="about">
+      <div class="base_item" style="font-size: 25px; padding-left: 20px">Платформа создана для студентов<br>
+        Дальневосточного Федерального
+        Университета<br>
+        <div class="block_1_5"><br><img class="base_item" style="width: 500px" src="@/assets/2.jpg">
+          <div class="block_2_5"><p>okdsfmp</p></div>
+        </div>
+      </div>
+      <div class=" base_item block_1">
+        <img class="base_item info" style="width: 600px" src="@/assets/1.jpg">
+        <div class="block_2">
+          <p>Сайт предназначен для быстрого и комфортного доступа ко многим услугам на кампусе ДВФУ</p>
+        </div>
+      </div>
+    </div>
   </div>
-
-
-  <footer><img style="width: 14px" src="@/assets/f-icon.png"> 2022</footer>
+  <footer>
+    <img style="width: 14px" src="@/assets/f-icon.png"> 2022
+  </footer>
 </template>
 
 <script>
 import SecondButton from "@/components/SecondButton";
 import FirstButton from "@/components/FirstButton";
-import DialogWindow from "@/components/DialogWindow";
+
 
 export default {
   components: {
-    DialogWindow,
+
     SecondButton,
     FirstButton
   },
   data() {
     return {
-      dialogVisible: false,
+
     }
   },
   methods: {
-    showDialog() {
-      this.dialogVisible = true
-    },
+
 
   }
 }
 </script>
 
-<style>
+<style scoped>
 * {
   font-family: "Century Gothic";
   margin: 0;
   padding: 0;
 
 }
-
 body {
   background-color: #FFFCF2;
 }
@@ -100,6 +98,7 @@ body {
   display: flex;
   justify-content: space-around;
   padding: 30px;
+
 
 }
 
@@ -125,10 +124,6 @@ body {
   flex-direction: column;
 }
 
-img {
-  width: 600px;
-}
-
 input {
   border-radius: 10px;
   border: 2px solid #403D39;
@@ -150,15 +145,8 @@ input {
   padding: 70px;
 }
 
-.flex-contanier1 {
-  background-color: #CCC5B9;
-  display: flex;
-  padding-bottom: 200px;
-  justify-content: space-evenly;
-}
-
 .flex-contanier2 {
-  padding-top: 280px;
+  padding-top: 18%;
   background-color: #CCC5B9;
   display: flex;
   padding-bottom: 200px;
@@ -187,6 +175,10 @@ a:hover {
   color: #EB5E28;
 }
 
+img {
+  border-radius: 120px;
+}
+
 .form {
   display: flex;
   flex-direction: column;
@@ -210,26 +202,95 @@ footer {
 
 }
 
-.base_img img:hover {
-  width: 250px;
-  height: 250px;
-  border-radius: 130px;
-}
-
-.base_img img {
-  width: 230px;
-  height: 230px;
-  border: 6px solid #403D39;
-  border-radius: 120px;
-}
-
 .base {
+  background-color: #CCC5B9;
+  padding-bottom: 100px;
   display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-evenly;
 }
 
-.base_i {
-  width: 50%;
+.block_1_5 {
+  overflow: hidden;
+  position: relative;
+  background-size: cover
 }
+
+.block_2_5 {
+  position: absolute;
+  visibility: hidden;
+  left: 1px;
+  font-size: 20px;
+  color: #CCC5B9;
+  top: 190px;
+  transition: all 1s;
+  height: 335px;
+  width: 500px;
+
+}
+
+.block_2_5 p {
+  padding: 110px 10px;
+  text-align: center;
+}
+
+.block_1_5:hover .block_2_5 {
+  visibility: visible;
+  transition: 3s;
+  height: 335px;
+  width: 500px;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 120px;
+  -webkit-transition: 1s;
+  transform: translatey(-160px);
+  -webkit-transform: translatey(-160px);
+
+}
+
+.block_1_5 :hover {
+  transition: 1s;
+  -webkit-transition: 0.6s;
+}
+
+.block_1 {
+  overflow: hidden;
+  position: relative;
+  background-size: cover
+}
+
+.block_2 {
+  position: absolute;
+  visibility: hidden;
+  left: 1px;
+  font-size: 20px;
+  color: #CCC5B9;
+  top: 160px;
+  transition: all 1s;
+  width: 600px;
+  height: 400px;
+}
+
+.block_2 p {
+  padding: 110px 10px;
+  text-align: center;
+}
+
+.block_1:hover .block_2 {
+  visibility: visible;
+  transition: 3s;
+  width: 600px;
+  height: 400px;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 120px;
+  -webkit-transition: 1s;
+  transform: translatey(-160px);
+  -webkit-transform: translatey(-160px);
+
+}
+
+.block_1:hover {
+  transition: 1s;
+  -webkit-transition: 0.6s;
+}
+
 </style>
