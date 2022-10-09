@@ -23,6 +23,7 @@ class Publication(models.Model):
     update_at = models.DateTimeField(auto_now=True, verbose_name='Изменено')
     photo = models.ImageField(upload_to='publication/%Y/%m/%d/', blank=True, verbose_name='Фото')
     category = models.ForeignKey('Category', on_delete=models.PROTECT, null=True, verbose_name='Категория')
+    building = models.ForeignKey('Building', on_delete=models.PROTECT, null=True, verbose_name='Корпус')
     CUSTOMER = 'Клиент'
     MASTER = 'Мастер'
     character = models.CharField(max_length=8, choices=[(CUSTOMER, 'Клиент'), (MASTER, 'Мастер')], default=CUSTOMER,
