@@ -8,7 +8,6 @@
         <first-button
             class="element2"
             @click="$router.push('/registration')">
-
           Регистрация
         </first-button>
 
@@ -44,7 +43,7 @@
         Дальневосточного Федерального
         Университета<br>
         <div class="block_1_5"><br><img class="base_item" style="width: 500px" src="@/assets/2.jpg">
-          <div class="block_2_5"><p>okdsfmp</p></div>
+          <div class="block_2_5"><p>Мастер предоставляет услуги<br>Клиент нуждается в услуге</p></div>
         </div>
       </div>
       <div class=" base_item block_1">
@@ -83,7 +82,7 @@ export default {
   methods:{
     setGeneralPage() {
       $.ajax({
-        url: "http://127.0.0.1:8000/auth/token/create",
+        url: "http://127.0.0.1:8000/auth/token/login",
         type: "POST",
         data: {
             UserName: this.login,
@@ -184,13 +183,12 @@ input {
   font-size: 70px;
 }
 
-.navbar {
-  background-color: #FFFCF2;
-  height: 80px;
-  width: 100%;
-  position: fixed;
+.flex-contanier {
+  display: flex;
+  justify-content: space-around;
+  padding: 30px;
+  margin-bottom: 160px;
 }
-
 a {
   color: #FFFCF2;
   transition: all 1s;
@@ -205,27 +203,10 @@ img {
   border-radius: 120px;
 }
 
-.form {
-  display: flex;
-  flex-direction: column;
-  margin-top: 6%;
-  margin-left: 10%;
-  padding: 7px;
-  border-radius: 10px;
-
-}
-
 footer {
   background-color: #FFFCF2;
   padding: 20px;
   padding-left: 50%;
-}
-
-.authorization {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-
 }
 
 .base {
@@ -233,6 +214,7 @@ footer {
   padding-bottom: 100px;
   display: flex;
   flex-direction: row;
+  margin-bottom: 50px;
   justify-content: space-evenly;
 }
 
@@ -318,5 +300,8 @@ footer {
   transition: 1s;
   -webkit-transition: 0.6s;
 }
-
+.navbar {
+  background: #FFFCF2;
+  margin-bottom: 100px;
+}
 </style>

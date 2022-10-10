@@ -30,6 +30,12 @@ class PublicationApi(APIView):
         else:
             return Response({"status": "Error"})
 
+class CategoryApi(APIView):
+
+    def get(self, request):
+        categories = Category.objects.all()
+        serializer = CategorySerializer(categories, many=True)
+        return Response(serializer.data)
 
 class BuildingsApi(APIView):
 

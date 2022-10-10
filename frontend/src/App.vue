@@ -14,8 +14,9 @@ export default {
 *{
   padding: 0;
   margin: 0;
+  font-family: "Century Gothic";
 }
 #app {
-
+  background: #CCC5B9;
 }
 </style>
