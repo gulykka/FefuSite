@@ -5,14 +5,20 @@ from .models import *
 # class PublicationModel:
 #     def __init__(self, content):
 #         self.content = content
-class ProfileSerializer(serializers.ModelSerializer):
+class SpecialUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = '__all__'
+        fields = ('id', 'phone_number', 'name', 'building', 'last_login')
+
+
+class ProfileUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ['name', 'building']
 
 
 class PublicationSerializer(serializers.ModelSerializer):
-    author = ProfileSerializer()
+    author = SpecialUserSerializer()
 
     class Meta:
         model = Publication

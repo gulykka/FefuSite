@@ -1,15 +1,14 @@
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
 from profiles.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/', include("profiles.urls")),
-    path('auth/', include('djoser.urls')),
-    path('auth/', include('djoser.urls.authtoken')),
-    path('auth/', include('djoser.urls.jwt')),
+    path('api/', include('djoser.urls')),
+    re_path(r'auth/', include('djoser.urls.authtoken')),
+    path('api/', include('profiles.urls')),
 ]
 
 if settings.DEBUG:

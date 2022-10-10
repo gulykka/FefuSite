@@ -1,39 +1,28 @@
 from rest_framework.permissions import AllowAny
 from .serializers import *
 from rest_framework import generics
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import permissions
 from .models import *
 
 
-class ProfileApi(APIView):
-
-    def get(self, request):
-        profiles = Profile.objects.all()
-        serializer = ProfileSerializer(profiles, many=True)
-        return Response(serializer.data)
+class ProfileApi(generics.ListAPIView):
+    queryset = Profile.objects.order_by('id')
+    serializer_class = SpecialUserSerializer
+    permission_classes = [AllowAny]
 
 
-class PublicationApi(APIView):
-
-    def get(self, request):
-        publications = Publication.objects.all()
-        serializer = PublicationSerializer(publications, many=True)
-        return Response(serializer.data)
-
-    def post(self, request):
-        publication = PublicationSerializer(data=request.data)
-        if publication.is_valid():
-            publication.save(user=request.user)
-            return Response({"status": "Add"})
-        else:
-            return Response({"status": "Error"})
+class PublicationApi(generics.ListAPIView):
+    queryset = Publication.objects.order_by('id')
+    serializer_class = PublicationSerializer
+    permission_classes = [AllowAny]
 
 
-class BuildingsApi(APIView):
+class CategoryApi(generics.ListAPIView):
+    queryset = Category.objects.order_by('id')
+    serializer_class = CategorySerializer
+    permission_classes = [AllowAny]
 
-    def get(self, request):
-        buildings = Building.objects.all()
-        serializer = BuildingSerializer(buildings, many=True)
-        return Response(serializer.data)
+
+class BuildingsList(generics.ListAPIView):
+    queryset = Building.objects.order_by('id')
+    serializer_class = BuildingSerializer
+    permission_classes = [AllowAny]

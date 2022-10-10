@@ -20,22 +20,32 @@
         </first-button>
       </div>
     </div>
+    <form @submit.prevent="submitForm">
     <div class="flex-contanier flex-contanier2">
       <div class="authorization" id="it1">
         <div class="form aut_item">
-          <input placeholder="UserName">
-          <input placeholder="Number">
-          <input placeholder="Korpus">
-          <input placeholder="Password">
-          <input placeholder="Password again"><br>
-          <second-button style="width: 230px;">Зарегистрироваться</second-button>
+          <input placeholder="UserName" v-model="name">
+          <input placeholder="Number" v-model="phone_number">
+          <select class="building" @change="setBuilding($event)">
+          <option selected disabled>Выберите корпус</option>
+            <option v-for="building in buildings"
+                    :key="building.id"
+                    :value="building.name"
+            >{{ building.name }}
+            </option>
+            </select>
+          <input type="password" placeholder="Password" v-model="password">
+          <input type="password" placeholder="Password again" v-model="password2"><br>
+          <second-button style="width: 230px;"  @click="this.$router.push('/posts')">Зарегистрироваться</second-button>
         </div>
+        <p v-if="error">{{ error }}</p>
         <div class="aut_item">
           <img style="width: 800px" src="@/assets/ref-img.png">
         </div>
       </div>
 
     </div>
+    </form>
   </div>
   <footer>
     <img style="width: 14px" src="@/assets/f-icon.png"> 2022
@@ -45,8 +55,7 @@
 <script>
 import SecondButton from "@/components/SecondButton";
 import FirstButton from "@/components/FirstButton";
-
-
+import axios from 'axios'
 
 export default {
   components: {
@@ -55,12 +64,56 @@ export default {
   },
   data() {
     return {
-
+      buildings: [],
+      phone_number: '',
+      name: '',
+      building: '',
+      password: '',
+      password2: '',
+      error: '',
+      singUpContent: true
     }
   },
   methods: {
+    setBuilding(e) {
+      this.building = e.target.value
+    },
+    async submitForm() {
+      this.errors = []
+      if (this.phone_number === '' || this.name === '' || this.building === '' || this.password === '') {
+        this.error = 'Введите все данные!'
+        return 0;
+      }
 
+      if (!this.errors.length) {
+        const formData = {
+          phone_number: this.phone_number,
+          name: this.name,
+          building: this.building,
+          password: this.password
+        }
+        await axios
+            .post("/api/users/", formData)
+            .catch(error => {
+              if (error.response) {
+                this.error = ('Что-то пошло не так.\nПопробуйте снова!')
+              }
+            })
+        await axios
+            .post('/auth/token/login/', {
+              phone_number: formData['phone_number'],
+              password: formData['password']
+            })
+            .then(response => {
+              const token = response.data.auth_token
+              this.$store.commit('setToken', token)
 
+              axios.defaults.headers.common["Authorization"] = "Token " + token
+              localStorage.setItem("token", token)
+            })
+        this.singUpContent = false
+      }
+    }
   }
 }
 </script>
