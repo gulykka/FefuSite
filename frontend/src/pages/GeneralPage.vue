@@ -7,13 +7,15 @@
       <div class="second-contanier flex-item ">
         <first-button
             class="element2"
-            @click="$router.push('/registration')">
+            v-if="!this.$store.state.isAuthenticated"
+            @click="showsignupDialog"
+        >
           Регистрация
         </first-button>
-
         <first-button
+            v-if="!this.$store.state.isAuthenticated"
             class="element2"
-            @click="$router.push('/')"
+            @click="showloginDialog"
         >
           Авторизация
         </first-button>
@@ -25,14 +27,16 @@
         </first-button>
       </div>
     </div>
-
+    <form @submit.prevent="submitForm">
     <div class="flex-contanier flex-contanier2">
+
       <div class="reristration">
-        <input v-model="login" placeholder="UserName">
+        <p class="error m-0" v-if="error">{{ error }}</p>
+        <input v-model="phone_number" placeholder="phone_number">
         <input v-model="password" type="password" placeholder="Password"><br>
         <second-button style="width: 200px; margin-left: 17%" @click="setGeneralPage">Войти</second-button>
         <br>
-        <div style="font-size: 14px">Если у вас нет аккаунта,<a @click="$router.push('/registration')">зарегистрируйся</a></div>
+        <div style="font-size: 14px">Если у вас нет аккаунта,<a @click="showsignupDialog" v-if="!this.$store.state.isAuthenticated">зарегистрируйся</a></div>
       </div>
       <div class="text">Будь с нами,<br>
         зарегистрируйся!
@@ -53,7 +57,9 @@
         </div>
       </div>
     </div>
+    </form>
   </div>
+
   <footer>
     <img style="width: 14px" src="@/assets/f-icon.png"> 2022
   </footer>
@@ -62,7 +68,7 @@
 <script>
 import SecondButton from "@/components/SecondButton";
 import FirstButton from "@/components/FirstButton";
-import $ from 'jquery'
+import axios from 'axios'
 
 export default {
 
@@ -72,38 +78,61 @@ export default {
     FirstButton
   },
 
-  name: "GeneralPage",
+  name: 'LogIn',
   data() {
     return {
-        login: '',
+        phone_number: '',
         password: '',
+        error: '',
+        loginVisible: false,
+        signupVisible: false,
     }
   },
-  methods:{
-    setGeneralPage() {
-      $.ajax({
-        url: "http://127.0.0.1:8000/auth/token/login",
-        type: "POST",
-        data: {
-            UserName: this.login,
-            Password: this.password
-        },
-        success: (responce) => {
-            console.log(responce)
-        },
-        error: (responce) => {
-            console.log(responce)
-        }
-      })
-    },
-  }
+  methods: {
+    async submitForm() {
+      if (this.phone_number === '' || this.password === '') {
+        this.error = 'Введите все данные!'
+        return 0;
+      }
 
-//  name_1: "Home",
-//  methods:{
-//    gologin(){
-//        this.$router.push({name: "Login"})
-//    }
-//  }
+      axios.defaults.headers.common["Authorization"] = ""
+      localStorage.removeItem("token")
+      const formData = {
+        phone_number: this.phone_number,
+        password: this.password
+      }
+      await axios
+          .post("/auth/token/login/", formData)
+          .then(response => {
+            const token = response.data.auth_token
+            this.$store.commit('setToken', token)
+
+            axios.defaults.headers.common["Authorization"] = "Token " + token
+            localStorage.setItem("token", token)
+            const toPath = this.$route.query.to || '/posts'
+            this.$router.push(toPath)
+          })
+          .catch(error => {
+            if (error.response) {
+              this.error = 'Неверный номер телефона или пароль. Попробуйте снова!'
+            }
+          })
+    },
+        showloginDialog() {
+          this.loginVisible = true;
+          document.querySelector('body').style.overflow = 'hidden'
+        },
+        showsignupDialog() {
+          this.signupVisible = true;
+          document.querySelector('body').style.overflow = 'hidden'
+        },
+        closeDialog() {
+          this.loginVisible = false;
+          this.signupVisible = false;
+          document.querySelector('body').removeAttribute('style')
+        }
+
+  }
 
 }
 </script>

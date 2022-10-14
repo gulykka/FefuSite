@@ -7,7 +7,7 @@ import UserPage from "@/pages/UserPage";
 const routes = [
     {
       path: '/',
-      name: "GeneralPage",
+      name: "Home",
       component: GeneralPage
     },
     {
@@ -28,6 +28,16 @@ const routes = [
 const router = createRouter({
     routes,
     history: createWebHistory(process.env.BASE_URL)
+})
+
+router.beforeEach((to, from, next) => {
+    if (localStorage.getItem('token')) {
+        next()
+    } else if (to.path === '/') {
+        next()
+    } else {
+        next({name: 'Home'})
+    }
 })
 
 export default router;

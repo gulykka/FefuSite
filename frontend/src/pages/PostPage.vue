@@ -227,9 +227,9 @@ export default {
     getServices() {
       axios({
         method: 'get',
-        url: 'http://127.0.0.1:8000/api/v1/publications/',
+        url: 'http://127.0.0.1:8000/api/publications/',
         auth: {
-          username: 'admin',
+          username: '0000',
           password: '0000'
         }
       }).then(responce => this.services = responce.data)
@@ -237,9 +237,9 @@ export default {
     getProfiles() {
       axios({
         method: 'get',
-        url: 'http://127.0.0.1:8000/api/v1/profiles/',
+        url: 'http://127.0.0.1:8000/api/profiles/',
         auth: {
-          username: 'admin',
+          username: '0000',
           password: '0000'
         }
       }).then(responce => this.profiles = responce.data)
@@ -247,9 +247,9 @@ export default {
     getCategory() {
       axios({
         method: 'get',
-        url: 'http://127.0.0.1:8000/api/v1/categories/',
+        url: 'http://127.0.0.1:8000/api/categories/',
         auth: {
-          username: 'admin',
+          username: '0000',
           password: '0000'
         }
       }).then(responce => this.category = responce.data)
@@ -257,16 +257,16 @@ export default {
     getBuildings() {
       axios({
         method: 'get',
-        url: 'http://127.0.0.1:8000/api/v1/buildings/',
+        url: 'http://127.0.0.1:8000/api/buildings/',
         auth: {
-          username: 'admin',
+          username: '0000',
           password: '0000'
         }
       }).then(responce => this.buildings = responce.data)
     },
     created(){
       const article = { id: "234", content: "Vue POST Request Example" };
-      axios.post("http://127.0.0.1:8000/api/v1/publications/", article)
+      axios.post("http://127.0.0.1:8000/api/publications/", article)
           .then(response => this.articleId = response.data.id);
       console.log(article.id)
     }

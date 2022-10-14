@@ -1,12 +1,12 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
+
 from .models import *
 
 
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('id', 'username', 'number',)
+    list_display = ('id', 'username', 'phone_number',)
     list_display_links = ('id', 'username',)
-
-
 
 class PublicatonAdmin(admin.ModelAdmin):
     list_display = ('id', 'author', 'character', 'category', 'content', 'created_at', 'update_at', 'photo',)
