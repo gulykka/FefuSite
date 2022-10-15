@@ -6,8 +6,8 @@
       </div>
       <div class="second-contanier flex-item ">
         <first-button
-            class="element2"
             v-if="!this.$store.state.isAuthenticated"
+            class="element2"
             @click="showsignupDialog"
         >
           Регистрация
@@ -15,7 +15,7 @@
         <first-button
             v-if="!this.$store.state.isAuthenticated"
             class="element2"
-            @click="showloginDialog"
+            @click="$routes.push('/registration')"
         >
           Авторизация
         </first-button>
@@ -36,7 +36,7 @@
         <input v-model="password" type="password" placeholder="Password"><br>
         <second-button style="width: 200px; margin-left: 17%" @click="setGeneralPage">Войти</second-button>
         <br>
-        <div style="font-size: 14px">Если у вас нет аккаунта,<a @click="showsignupDialog" v-if="!this.$store.state.isAuthenticated">зарегистрируйся</a></div>
+        <div style="font-size: 14px">Если у вас нет аккаунта,<a @click="$router.push('/registration')">зарегистрируйся</a></div>
       </div>
       <div class="text">Будь с нами,<br>
         зарегистрируйся!

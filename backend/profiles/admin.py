@@ -1,5 +1,4 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
 
 from .models import *
 
@@ -8,7 +7,8 @@ class ProfileAdmin(admin.ModelAdmin):
     list_display = ('id', 'username', 'phone_number',)
     list_display_links = ('id', 'username',)
 
-class PublicatonAdmin(admin.ModelAdmin):
+
+class PublicationAdmin(admin.ModelAdmin):
     list_display = ('id', 'author', 'character', 'category', 'content', 'created_at', 'update_at', 'photo',)
     list_display_links = ('id', 'author')
     search_fields = ('content',)
@@ -26,7 +26,13 @@ class BuildingsAdmin(admin.ModelAdmin):
     search_fields = ('title', 'content')
 
 
+class ServiceAdmin(admin.ModelAdmin):
+    list_display = ['user', 'status', 'created', 'updated']
+    list_filter = ['status', 'created', 'updated']
+
+
 admin.site.register(Profile, ProfileAdmin)
-admin.site.register(Publication, PublicatonAdmin)
+admin.site.register(Publication, PublicationAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Building, BuildingsAdmin)
+admin.site.register(Service, ServiceAdmin)
