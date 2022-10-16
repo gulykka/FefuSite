@@ -11,6 +11,11 @@
             v-if="!this.$store.state.isAuthenticated"
             class="element2"
 
+
+            class="element2"
+            @click="$router.push('/registration')"
+
+
         >
           Регистрация
         </first-button>
