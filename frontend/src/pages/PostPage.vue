@@ -9,12 +9,12 @@
       <input v-model="poster.content" placeholder="Текст публикации">
       <p>Категоря услуги</p>
       <select v-model="poster.categoryi" class="filter_item">
-        <option v-for="cat in category" v-bind:key="cat.id" v-bind:value="cat.title"> {{ cat.title }}</option>
+        <option v-for="cat in category" v-bind:key="cat.id" v-bind:value="cat.id"> {{ cat.title }}</option>
       </select>
       <p>Корпус</p>
       <select v-model="poster.building" class="filter_item">
 
-        <option v-for="bul in buildings" v-bind:key="bul.id" v-bind:value="bul.title"> {{ bul.title }}</option>
+        <option v-for="bul in buildings" v-bind:key="bul.id" v-bind:value="bul.id"> {{ bul.title }}</option>
       </select>
 
       <select v-model="poster.character">
@@ -299,21 +299,23 @@ export default {
       }).then(responce => this.buildings = responce.data)
     },
 
-    async submitForm(){
-      let data = {
-        'author': this.$root.profile,
-        'building': this.poster.building,
-        'category': this.poster.categoryi,
-        'character': this.poster.character,
-        'content': this.poster.content
-      }
-      fetch('http://127.0.0.1:8000/api/publications/',
-          {
-            method: 'post',
-            headers: { "Content-Type": "application/json"},
-            body: JSON.stringify(data)
+    async submitForm() {
+      const formData = new FormData()
+      formData.append('author', this.$root.profile)
+      formData.append('building', this.poster.building)
+      formData.append('category', this.poster.categoryi)
+      formData.append('character', this.poster.character)
+      formData.append('content', this.poster.content)
+
+      await axios
+          .post('api/publications/', formData)
+          .then(response => {
+            this.$router.push({name: 'Posts', params: {slug: response.data.slug}})
           })
-      },
+          .catch(error => {
+            console.log(error)
+          })
+    }
 
   },
   computed: {
