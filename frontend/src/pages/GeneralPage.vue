@@ -7,8 +7,9 @@
       <div class="second-contanier flex-item ">
         <first-button
             class="element2"
-            v-if="!this.$store.state.isAuthenticated"
-            @click="showsignupDialog"
+
+
+            @click="$router.push('/registration')"
         >
           Регистрация
         </first-button>

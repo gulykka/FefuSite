@@ -3,6 +3,31 @@
       v-bind:category="category"
       v-bind:buildings="buildings"
   ></nav-bar>
+  <div class="forma">
+    <h2>Добавление поста</h2>
+    <form @submit.prevent="submitForm">
+      <input v-model="poster.content" placeholder="Текст публикации">
+      <p>Категоря услуги</p>
+      <select v-model="poster.categoryi" class="filter_item">
+        <option v-for="cat in category" v-bind:key="cat.id" v-bind:value="cat.title"> {{ cat.title }}</option>
+      </select>
+      <p>Корпус</p>
+      <select v-model="poster.building" class="filter_item">
+
+        <option v-for="bul in buildings" v-bind:key="bul.id" v-bind:value="bul.title"> {{ bul.title }}</option>
+      </select>
+
+      <select v-model="poster.character">
+        <option>Мастер</option>
+        <option>Клиент</option>
+      </select>
+      <second-button style="width: 200px; padding: 10px; color: #403D39; margin-left: 60px"
+
+
+      >Добавить пост
+      </second-button>
+    </form>
+  </div>
   <div class="content">
     <div class="filter">
       <div>
@@ -14,7 +39,6 @@
       <input v-if="ThisFind"
              v-model="search"
              placeholder="Поиск">
-      <first-button @click="created">ght</first-button>
       <div v-if="ThisCategory">
         <p>Категоря услуги</p>
         <select v-model.number="ChosenCategory" class="filter_item">
@@ -34,12 +58,12 @@
       <div v-if="search === ''" class="sersis">
         <div v-for="ser in services" v-bind:key="ser.id">
           <div class="serves">
-            <h3>{{ ser.content }}</h3>
+            <h3 class="servise_content">{{ ser.content }}</h3>
             <div v-if="ser.photo === null">
               <img style="width: 190px; margin: 10px;margin-left: 50px" src="@/assets/serves.png">
             </div>
             <div v-else>
-              <img :src="'http://127.0.0.1:8000'+ ser.photo">
+              <img :src="ser.photo">
             </div>
             <strong>{{ ser.character }}</strong>
             <div v-for="bul in buildings" :key="bul.id">
@@ -55,12 +79,12 @@
         <div v-for="ser in sortedAndSearchedPosts" v-bind:key="ser.id">
 
           <div class="serves">
-            <h3>{{ ser.content }}</h3>
+            <h3 class="servise_content">{{ ser.content }}</h3>
             <div v-if="ser.photo === null">
               <img style="width: 190px; margin: 10px;margin-left: 50px" src="@/assets/serves.png">
             </div>
             <div v-else>
-              <img :src="'http://127.0.0.1:8000'+ ser.photo">
+              <img :src="ser.photo">
             </div>
             <strong>{{ ser.character }}</strong>
             <div v-for="bul in buildings" :key="bul.id">
@@ -78,12 +102,12 @@
       <div v-if="ChosenBuilding === 0" class="sersis">
         <template v-for="ser in services" v-bind:key="ser.id">
           <div class="serves">
-            <h3>{{ ser.content }}</h3>
+            <h3 class="servise_content">{{ ser.content }}</h3>
             <div v-if="ser.photo === null">
               <img style="width: 190px; margin: 10px;margin-left: 50px" src="@/assets/serves.png">
             </div>
             <div v-else>
-              <img :src="'http://127.0.0.1:8000'+ ser.photo">
+              <img :src="ser.photo">
             </div>
             <strong>{{ ser.character }}</strong>
             <div v-for="bul in buildings" :key="bul.id">
@@ -99,12 +123,12 @@
         <div v-for="ser in services" :key="ser.id">
           <template v-if="ser.building === ChosenBuilding">
             <div class="serves">
-              <h3>{{ ser.content }}</h3>
+              <h3 class="servise_content">{{ ser.content }}</h3>
               <div v-if="ser.photo === null">
                 <img style="width: 190px; margin: 10px;margin-left: 50px" src="@/assets/serves.png">
               </div>
               <div v-else>
-                <img :src="'http://127.0.0.1:8000'+ ser.photo">
+                <img :src="ser.photo">
               </div>
               <strong>{{ ser.character }}</strong>
               <div v-for="bul in buildings" :key="bul.id">
@@ -123,12 +147,12 @@
         <div v-for="ser in services" :key="ser.id">
           <div v-if="ser.category === ChosenCategory">
             <div class="serves">
-              <h3>{{ ser.content }}</h3>
+              <h3 class="servise_content">{{ ser.content }}</h3>
               <div v-if="ser.photo === null">
                 <img style="width: 190px; margin: 10px;margin-left: 50px" src="@/assets/serves.png">
               </div>
               <div v-else>
-                <img :src="'http://127.0.0.1:8000'+ ser.photo">
+                <img :src="ser.photo">
               </div>
               <strong>{{ ser.character }}</strong>
               <div v-for="bul in buildings" :key="bul.id">
@@ -145,12 +169,12 @@
           <div v-if="ser.building === ChosenBuilding">
             <div v-if="ser.category === ChosenCategory" class="sersis">
               <div class="serves">
-                <h3>{{ ser.content }}</h3>
+                <h3 class="servise_content">{{ ser.content }}</h3>
                 <div v-if="ser.photo === null">
                   <img style="width: 190px; margin: 10px;margin-left: 50px" src="@/assets/serves.png">
                 </div>
                 <div v-else>
-                  <img :src="'http://127.0.0.1:8000'+ ser.photo">
+                  <img :src="ser.photo">
                 </div>
                 <strong>{{ ser.character }}</strong>
                 <div v-for="bul in buildings" :key="bul.id">
@@ -172,17 +196,18 @@
 
 <script>
 import axios from 'axios';
+import API from "@/mixins/API";
 import NavBar from "@/components/NavBar";
 import SecondButton from "@/components/SecondButton";
-import FirstButton from "@/components/FirstButton";
+
 
 export default {
   name: "PostPage",
   components: {
-    FirstButton,
     NavBar,
     SecondButton
   },
+  mixins: [API],
   data() {
     return {
       services: [],
@@ -196,6 +221,15 @@ export default {
       ThisBuilding: false,
       ThisFind: true,
       search: '',
+      poster: {
+        content: '',
+        categoryi: '',
+        building: '',
+        character: '',
+
+
+      },
+      posts: []
 
     }
   },
@@ -264,17 +298,26 @@ export default {
         }
       }).then(responce => this.buildings = responce.data)
     },
-    created(){
-      const article = { id: "234", content: "Vue POST Request Example" };
-      axios.post("http://127.0.0.1:8000/api/publications/", article)
-          .then(response => this.articleId = response.data.id);
-      console.log(article.id)
-    }
+
+    async submitForm(){
+      let data = {
+        'author': this.$root.profile,
+        'building': this.poster.building,
+        'category': this.poster.categoryi,
+        'character': this.poster.character,
+        'content': this.poster.content
+      }
+      fetch('http://127.0.0.1:8000/api/publications/',
+          {
+            method: 'post',
+            headers: { "Content-Type": "application/json"},
+            body: JSON.stringify(data)
+          })
+      },
 
   },
-
   computed: {
-    sortedAndSearchedPosts(){
+    sortedAndSearchedPosts() {
       return this.services.filter(post => post.content.toLowerCase().includes(this.search.toLowerCase()))
     }
   }
@@ -362,5 +405,9 @@ img {
   margin: 10px;
   margin-left: 50px;
   width: 200px;
+}
+.servise_content {
+  height: 45px;
+  text-align: center;
 }
 </style>

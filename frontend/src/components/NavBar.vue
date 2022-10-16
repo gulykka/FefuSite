@@ -44,7 +44,8 @@ export default {
   components: {
     FirstButton,
     DialogWindow,
-    PostForm
+    PostForm,
+
   },
   props: {
     category: {

@@ -16,11 +16,13 @@ const routes = [
     },
     {
         path: '/posts',
-        component: PostPage
+        component: PostPage,
+        name: "Posts",
     },
     {
         path: '/myprofile',
-        component: UserPage
+        component: UserPage,
+        name: 'myprifile'
     },
 
 ]
