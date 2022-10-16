@@ -32,7 +32,7 @@ class Profile(AbstractUser):
     last_name = None
     phone_number = models.CharField(max_length=100, unique=True)
     name = models.CharField(max_length=100, blank=False)
-    building = models.CharField(max_length=30, blank=False)
+    building = models.CharField(max_length=30, blank=False, default="")
 
     USERNAME_FIELD = 'phone_number'
     REQUIRED_FIELDS = ['name', 'building']
@@ -63,6 +63,31 @@ class Publication(models.Model):
         verbose_name = 'Публикация'
         verbose_name_plural = 'Публикации'
         ordering = ['-created_at']
+
+
+class Service(models.Model):
+    STATUS = (
+        ('sent', 'sent'),
+        ('approved', 'approved'),
+        ('declined', 'declined')
+    )
+
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    publication = models.ForeignKey('Publication', on_delete=models.PROTECT, null=True, verbose_name='Пост')
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    status = models.CharField(max_length=8, choices=STATUS, default='sent')
+
+    class Meta:
+        ordering = ('-created',)
+        verbose_name = 'Заказ'
+        verbose_name_plural = 'Заказы'
+
+    def __str__(self):
+        return 'Order {}'.format(self.pk)
+
+    def get_total_cost(self):
+        return sum(item.get_cost() for item in self.items.all())
 
 
 class Category(models.Model):

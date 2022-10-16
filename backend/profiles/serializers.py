@@ -2,9 +2,6 @@ from rest_framework import serializers
 from .models import *
 
 
-# class PublicationModel:
-#     def __init__(self, content):
-#         self.content = content
 class SpecialUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
@@ -34,4 +31,10 @@ class CategorySerializer(serializers.ModelSerializer):
 class BuildingSerializer(serializers.ModelSerializer):
     class Meta:
         model = Building
+        fields = '__all__'
+
+
+class ServiceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Service
         fields = '__all__'

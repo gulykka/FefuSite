@@ -27,12 +27,11 @@
           <input placeholder="UserName" v-model="name">
           <input placeholder="Number" v-model="phone_number">
           <select class="building" @change="setBuilding($event)">
-          <option selected disabled>Выберите корпус</option>
-            <option v-for="building in buildings"
-                    :key="building.id"
-                    :value="building.name"
-            >{{ building.name }}
-            </option>
+            <div v-for="bul in buildings" :key="bul.id">
+                <div v-if="bul.id === ser.building">
+                  Корпус: {{ bul.title }}
+                  </div>
+                  </div>
             </select>
           <input type="password" placeholder="Password" v-model="password">
           <input type="password" placeholder="Password again" v-model="password2"><br>
