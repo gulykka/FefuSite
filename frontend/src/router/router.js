@@ -14,11 +14,16 @@ const routes = [
     {
         path: '/posts',
         component: PostPage,
+
+        name: "Posts",
+
         requireAuth:true
+
     },
     {
         path: '/myprofile',
-        component: UserPage
+        component: UserPage,
+        name: 'myprifile'
     },
 
     {

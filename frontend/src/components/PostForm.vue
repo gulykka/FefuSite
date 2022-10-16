@@ -1,36 +1,50 @@
 <template>
   <div class="forma">
     <h2>Добавление поста</h2>
-    <input placeholder="Текст публикации">
-    <p>Категоря услуги</p>
-    <select v-model.number="ChosenCategory" class="filter_item">
-      <option v-for="cat in category" v-bind:key="cat.title" v-bind:value="cat.id"> {{ cat.title }}</option>
-    </select>
-    <p>Корпус</p>
-    <select v-model.number="ChosenBuilding" class="filter_item">
+    <form @submit.prevent="createPost">
+      <input v-model="poster.content" placeholder="Текст публикации">
+      <p>Категоря услуги</p>
+      <select v-model="poster.categoryi" class="filter_item">
+        <option v-for="cat in category" v-bind:key="cat.id" v-bind:value="cat.title"> {{ cat.title }}</option>
+      </select>
+      <p>Корпус</p>
+      <select v-model="poster.building" class="filter_item">
 
-      <option v-for="bul in buildings" v-bind:key="bul.title" v-bind:value="bul.id"> {{ bul.title }}</option>
-    </select>
-    <select>
-      <option>Мастер</option>
-      <option>Клиент</option>
-    </select>
-    <second-button style="width: 200px; padding: 10px; color: #403D39; margin-left: 60px">Добавить пост</second-button>
+        <option v-for="bul in buildings" v-bind:key="bul.id" v-bind:value="bul.title"> {{ bul.title }}</option>
+      </select>
+
+      <select v-model="poster.character">
+        <option>Мастер</option>
+        <option>Клиент</option>
+      </select>
+      <second-button style="width: 200px; padding: 10px; color: #403D39; margin-left: 60px"
+
+
+      >Добавить пост
+      </second-button>
+    </form>
   </div>
 
 </template>
 
 <script>
 import SecondButton from "@/components/SecondButton";
+
 export default {
   name: "PostForm",
-  components:{
+  components: {
     SecondButton
   },
   data() {
     return {
-      ChosenCategory: 0,
-      ChosenBuilding: 0
+      poster: {
+        content: '',
+        categoryi: '',
+        building: '',
+        character: ''
+
+      },
+      posts: []
     }
   },
   props: {
@@ -41,6 +55,19 @@ export default {
     buildings: {
       type: Array,
       required: true
+    }
+  },
+  methods: {
+    async createPost() {
+      var responce = await fetch('http://127.0.0.1:8000/api/publications/', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'aplication/json'
+        },
+        body: JSON.stringify(this.poster)
+      });
+      this.posts.push(await responce.json());
+      console.log(this.posts)
     }
   }
 }
@@ -79,11 +106,13 @@ h2 {
   margin-left: 50px;
   margin-bottom: 10px;
 }
+
 .forma {
   margin: 30px;
   display: flex;
   flex-direction: column;
 }
+
 p {
   margin-left: 12px;
 }
