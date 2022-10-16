@@ -7,7 +7,7 @@
       <div class="second-contanier flex-item ">
         <first-button
             class="element2"
-            @click="$router.push('/posts')"
+            @click="$router.push('/registration')"
         >
           Регистрация
         </first-button>
