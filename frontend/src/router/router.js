@@ -14,9 +14,7 @@ const routes = [
     {
         path: '/posts',
         component: PostPage,
-
         name: "Posts",
-
         requireAuth:true
 
     },

@@ -9,12 +9,12 @@
       <input v-model="poster.content" placeholder="Текст публикации">
       <p>Категоря услуги</p>
       <select v-model="poster.categoryi" class="filter_item">
-        <option v-for="cat in category" v-bind:key="cat.id" v-bind:value="cat.title"> {{ cat.title }}</option>
+        <option v-for="cat in category" v-bind:key="cat.id" v-bind:value="cat.id"> {{ cat.title }}</option>
       </select>
       <p>Корпус</p>
       <select v-model="poster.building" class="filter_item">
 
-        <option v-for="bul in buildings" v-bind:key="bul.id" v-bind:value="bul.title"> {{ bul.title }}</option>
+        <option v-for="bul in buildings" v-bind:key="bul.id" v-bind:value="bul.id"> {{ bul.title }}</option>
       </select>
 
       <select v-model="poster.character">

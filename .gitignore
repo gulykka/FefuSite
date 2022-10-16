@@ -27,11 +27,10 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
-HEAD
+
 *.sqlite3
 
 node_modules/
-67db5dafc1d3b590de3fb5f71082f75e5b65dd66
 
 # End of https://www.toptal.com/developers/gitignore/api/windows
 .venv/
