@@ -6,16 +6,14 @@
       </div>
       <div class="second-contanier flex-item ">
         <first-button
-            v-if="!this.$store.state.isAuthenticated"
             class="element2"
-            @click="showsignupDialog"
+            @click="$router.push('/posts')"
         >
           Регистрация
         </first-button>
         <first-button
-            v-if="!this.$store.state.isAuthenticated"
             class="element2"
-            @click="$routes.push('/registration')"
+            @click="$router.push('/registration')"
         >
           Авторизация
         </first-button>
@@ -117,20 +115,7 @@ export default {
               this.error = 'Неверный номер телефона или пароль. Попробуйте снова!'
             }
           })
-    },
-        showloginDialog() {
-          this.loginVisible = true;
-          document.querySelector('body').style.overflow = 'hidden'
-        },
-        showsignupDialog() {
-          this.signupVisible = true;
-          document.querySelector('body').style.overflow = 'hidden'
-        },
-        closeDialog() {
-          this.loginVisible = false;
-          this.signupVisible = false;
-          document.querySelector('body').removeAttribute('style')
-        }
+    }
 
   }
 
