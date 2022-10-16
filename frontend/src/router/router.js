@@ -14,7 +14,11 @@ const routes = [
     {
         path: '/posts',
         component: PostPage,
+
         name: "Posts",
+
+        requireAuth:true
+
     },
     {
         path: '/myprofile',
@@ -24,6 +28,7 @@ const routes = [
 
     {
         path: '/registration',
+        name: 'Registration',
         component: RegistrationPage
     },
 
@@ -42,6 +47,8 @@ router.beforeEach((to, from, next) => {
     } else {
         next({name: 'Home'})
     }
+
 })
+
 
 export default router;
