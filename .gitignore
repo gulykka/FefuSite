@@ -175,3 +175,5 @@ GitHub.sublime-settings
 backend/backend/__pycache__/__init__.cpython-310.pyc
 
 backend/db.sqlite3
+backend/db.sqlite3
+*.sqlite3

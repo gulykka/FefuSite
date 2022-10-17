@@ -4,13 +4,18 @@ from rest_framework import generics
 from .models import *
 
 
-class ProfileApi(generics.ListAPIView):
+class ProfileApi(generics.ListCreateAPIView):
     queryset = Profile.objects.order_by('id')
     serializer_class = SpecialUserSerializer
     permission_classes = [AllowAny]
 
+class PublicationDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Publication.objects.all()
+    serializer_class = PublicationSerializer
+    permission_classes = [AllowAny]
 
-class PublicationApi(generics.ListAPIView):
+
+class PublicationApi(generics.ListCreateAPIView):
     queryset = Publication.objects.order_by('id')
     serializer_class = PublicationSerializer
     permission_classes = [AllowAny]
