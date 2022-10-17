@@ -301,7 +301,7 @@ export default {
 
     async submitForm() {
       const formData = new FormData()
-      formData.append('author', this.$root.profile)
+      formData.append('author', this.$root.profile.id)
       formData.append('building', this.poster.building)
       formData.append('category', this.poster.categoryi)
       formData.append('character', this.poster.character)
@@ -310,7 +310,7 @@ export default {
       await axios
           .post('api/publications/', formData)
           .then(response => {
-            this.$router.push({name: 'Posts', params: {slug: response.data.slug}})
+            this.$router.push({name: 'myprifile', params: {slug: response.data.slug}})
           })
           .catch(error => {
             console.log(error)

@@ -13,7 +13,7 @@
       <h2>Мои услуги</h2>
       <div class="my__servises">
         <div v-for="ser in services" :key="ser.id">
-          <div v-if="ser.author.id === this.$root.profile.id">
+          <div v-if="ser.author === this.$root.profile.id">
             <div class="serves">
               <div class="my__servises_content">
                 {{ ser.content }}

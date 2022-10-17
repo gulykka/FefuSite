@@ -44,7 +44,7 @@ class Profile(AbstractUser):
 
 
 class Publication(models.Model):
-    author = models.ForeignKey(Profile, on_delete=models.CASCADE, verbose_name='Автор')
+    author = models.ForeignKey('Profile', on_delete=models.CASCADE, verbose_name='Автор')
     content = models.TextField(verbose_name='Текст публикации')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Опубликовано')
     update_at = models.DateTimeField(auto_now=True, verbose_name='Изменено')

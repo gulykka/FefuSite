@@ -28,10 +28,10 @@
           <input placeholder="Number" v-model="phone_number">
           <select class="building" @change="setBuilding($event)">
             <div v-for="bul in buildings" :key="bul.id">
-                <div v-if="bul.id === ser.building">
-                  Корпус: {{ bul.title }}
+                  <div v-if="bul.id === ser.building">
+                    Корпус: {{ bul.title }}
                   </div>
-                  </div>
+                </div>
             </select>
           <input type="password" placeholder="Password" v-model="password">
           <input type="password" placeholder="Password again" v-model="password2"><br>
@@ -73,9 +73,43 @@ export default {
       singUpContent: true
     }
   },
+  mounted() {
+    this.getServices()
+    this.getProfiles()
+    this.getCategory()
+    this.getBuildings()
+
+  },
+  getBuildings() {
+      axios({
+        method: 'get',
+        url: 'http://127.0.0.1:8000/api/buildings/',
+        auth: {
+          username: '0000',
+          password: '0000'
+        }
+      }).then(responce => this.buildings = responce.data)
+    },
   methods: {
     setBuilding(e) {
       this.building = e.target.value
+    },
+    NoFilter() {
+      this.ChosenCategory = 0
+      this.ChosenBuilding = 0
+    },
+    ShowAll() {
+      this.ThisAll = true
+      this.ThisFind = true
+      this.ThisCategory = false
+      this.ChosenCategory = 0
+      this.ChosenBuilding = 0
+    },
+    ShowCategory() {
+      this.search = ''
+      this.ThisAll = false
+      this.ThisCategory = true
+      this.ThisFind = false
     },
     async submitForm() {
       this.errors = []
