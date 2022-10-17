@@ -7,13 +7,12 @@
     <h2>Добавление поста</h2>
     <form @submit.prevent="submitForm">
       <input v-model="poster.content" placeholder="Текст публикации">
-      <p>Категоря услуги</p>
+      <p>Категория услуги</p>
       <select v-model="poster.categoryi" class="filter_item">
         <option v-for="cat in category" v-bind:key="cat.id" v-bind:value="cat.id"> {{ cat.title }}</option>
       </select>
       <p>Корпус</p>
       <select v-model="poster.building" class="filter_item">
-
         <option v-for="bul in buildings" v-bind:key="bul.id" v-bind:value="bul.id"> {{ bul.title }}</option>
       </select>
 

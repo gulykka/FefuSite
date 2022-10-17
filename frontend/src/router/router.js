@@ -1,5 +1,4 @@
 import GeneralPage from "@/pages/GeneralPage";
-import RegistrationPage from "@/pages/RegistrationPage"
 import {createRouter, createWebHistory} from "vue-router";
 import PostPage from "@/pages/PostPage";
 import UserPage from "@/pages/UserPage";
@@ -14,9 +13,7 @@ const routes = [
     {
         path: '/posts',
         component: PostPage,
-
         name: "Posts",
-
         requireAuth:true
 
     },
@@ -26,11 +23,7 @@ const routes = [
         name: 'myprifile'
     },
 
-    {
-        path: '/registration',
-        name: 'Registration',
-        component: RegistrationPage
-    },
+
 
 ]
 

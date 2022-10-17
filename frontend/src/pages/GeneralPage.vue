@@ -7,89 +7,97 @@
       <div class="second-contanier flex-item ">
         <first-button
             class="element2"
-            @click="$router.push('/registration')"
-
+            @click="ShowWindow()"
         >
           Регистрация
-        </first-button>
-        <first-button
-            class="element2"
-
-            @click="$router.push('/registration')"
-
-        >
-          Авторизация
-        </first-button>
-        <first-button
-            class="element2"
-            href="#about"
-        >
-          О нас
         </first-button>
       </div>
     </div>
     <form @submit.prevent="submitForm">
-    <div class="flex-contanier flex-contanier2">
-
-      <div class="reristration">
-        <p class="error m-0" v-if="error">{{ error }}</p>
-        <input v-model="phone_number" placeholder="phone_number">
-        <input v-model="password" type="password" placeholder="Password"><br>
-        <second-button style="width: 200px; margin-left: 17%" @click="setGeneralPage">Войти</second-button>
-        <br>
-        <div style="font-size: 14px">Если у вас нет аккаунта,<a @click="$router.push('/registration')">зарегистрируйся</a></div>
-      </div>
-      <div class="text">Будь с нами,<br>
-        зарегистрируйся!
-      </div>
-    </div>
-    <div class="base" id="about">
-      <div class="base_item" style="font-size: 25px; padding-left: 20px">Платформа создана для студентов<br>
-        Дальневосточного Федерального
-        Университета<br>
-        <div class="block_1_5"><br><img class="base_item" style="width: 500px" src="@/assets/2.jpg">
-          <div class="block_2_5"><p>Мастер предоставляет услуги<br>Клиент нуждается в услуге</p></div>
+      <div class="flex-contanier flex-contanier2">
+        <div class="reristration">
+          <p class="error m-0" v-if="error">{{ error }}</p>
+          <input v-model="phone_number" placeholder="phone_number">
+          <input v-model="password" type="password" placeholder="Password"><br>
+          <second-button style="width: 200px; margin-left: 17%" @click="setGeneralPage">Войти</second-button>
+          <br>
+          <div style="font-size: 14px">Если у вас нет аккаунта,<a
+              @click="ShowWindow">зарегистрируйся</a></div>
+        </div>
+        <div class="text">Будь с нами,<br>
+          зарегистрируйся!
         </div>
       </div>
-      <div class=" base_item block_1">
-        <img class="base_item info" style="width: 600px" src="@/assets/1.jpg">
-        <div class="block_2">
-          <p>Сайт предназначен для быстрого и комфортного доступа ко многим услугам на кампусе ДВФУ</p>
-        </div>
-      </div>
-    </div>
     </form>
-  </div>
+    <dialog-window
+        v-model:show="Window"
+    >
+      <form @submit.prevent="submitForm">
+        <div class="flex-contanier4">
+          <div class="registration">
+            <div class="form reg_item">
+              <h1 style="color: #403D39">Регистрация</h1>
+              <input placeholder="UserName" v-model="name">
+              <input placeholder="Number" v-model="phone_number">
+              <select  class="filter_item">
+                <option v-for="bul in buildings" v-bind:key="bul.id" v-bind:value="bul.id"> {{ bul.title }}</option>
+              </select>
+              <input type="password" placeholder="Password" v-model="password">
+              <input type="password" placeholder="Password again" v-model="password2"><br>
+              <second-button style="width: 230px;" @click="this.$router.push('/posts')">Зарегистрироваться
+              </second-button>
+            </div>
+            <p v-if="error">{{ error }}</p>
+            <div class="aut_item">
+              <img style="width: 800px" src="@/assets/ref-img.png">
+            </div>
 
+          </div>
+
+        </div>
+      </form>
+
+    </dialog-window>
+  </div>
   <footer>
     <img style="width: 14px" src="@/assets/f-icon.png"> 2022
   </footer>
 </template>
 
 <script>
-import SecondButton from "@/components/SecondButton";
 import FirstButton from "@/components/FirstButton";
-import axios from 'axios'
+import axios from 'axios';
+import DialogWindow from "@/components/DialogWindow";
+import SecondButton from "@/components/SecondButton";
 
 export default {
-
   components: {
-
     SecondButton,
+    DialogWindow,
     FirstButton
   },
-
   name: 'LogIn',
   data() {
     return {
-        phone_number: '',
-        password: '',
-        error: '',
-        loginVisible: false,
-        signupVisible: false,
+      phone_number: '',
+      password: '',
+      error: '',
+      loginVisible: false,
+      signupVisible: false,
+      Window: false,
+      buildings: [],
     }
   },
+  mounted() {
+    this.getBuildings()
+
+  },
+
   methods: {
+    ShowWindow() {
+      this.Window = true
+      console.log(this.Window)
+    },
     async submitForm() {
       if (this.phone_number === '' || this.password === '') {
         this.error = 'Введите все данные!'
@@ -118,7 +126,17 @@ export default {
               this.error = 'Неверный номер телефона или пароль. Попробуйте снова!'
             }
           })
-    }
+    },
+    getBuildings() {
+      axios({
+        method: 'get',
+        url: 'http://127.0.0.1:8000/api/buildings/',
+        auth: {
+          username: '0000',
+          password: '0000'
+        }
+      }).then(responce => this.buildings = responce.data)
+    },
 
   }
 
@@ -132,6 +150,7 @@ export default {
   padding: 0;
 
 }
+
 body {
   background-color: #FFFCF2;
 }
@@ -140,8 +159,6 @@ body {
   display: flex;
   justify-content: space-around;
   padding: 30px;
-
-
 }
 
 .second-contanier {
@@ -165,7 +182,13 @@ body {
   display: flex;
   flex-direction: column;
 }
-
+select {
+  border-radius: 10px;
+  border: 2px solid #403D39;
+  padding: 3px;
+  margin: 10px;
+  height: 40px;
+}
 input {
   border-radius: 10px;
   border: 2px solid #403D39;
@@ -173,10 +196,6 @@ input {
   margin: 10px;
   height: 30px;
 }
-
-/*input:hover {*/
-/*  box-shadow: 1px 1px 5px #EB5E28;*/
-/*}*/
 
 .reristration {
   display: flex;
@@ -204,8 +223,9 @@ input {
   display: flex;
   justify-content: space-around;
   padding: 30px;
-  margin-bottom: 160px;
+  margin-bottom: 80px;
 }
+
 a {
   color: #FFFCF2;
   transition: all 1s;
@@ -226,99 +246,35 @@ footer {
   padding-left: 50%;
 }
 
-.base {
-  background-color: #CCC5B9;
-  padding-bottom: 100px;
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 50px;
-  justify-content: space-evenly;
-}
 
-.block_1_5 {
-  overflow: hidden;
-  position: relative;
-  background-size: cover
-}
-
-.block_2_5 {
-  position: absolute;
-  visibility: hidden;
-  left: 1px;
-  font-size: 20px;
-  color: #CCC5B9;
-  top: 190px;
-  transition: all 1s;
-  height: 335px;
-  width: 500px;
-
-}
-
-.block_2_5 p {
-  padding: 110px 10px;
-  text-align: center;
-}
-
-.block_1_5:hover .block_2_5 {
-  visibility: visible;
-  transition: 3s;
-  height: 335px;
-  width: 500px;
-  background: rgba(0, 0, 0, 0.6);
-  border-radius: 120px;
-  -webkit-transition: 1s;
-  transform: translatey(-160px);
-  -webkit-transform: translatey(-160px);
-
-}
-
-.block_1_5 :hover {
-  transition: 1s;
-  -webkit-transition: 0.6s;
-}
-
-.block_1 {
-  overflow: hidden;
-  position: relative;
-  background-size: cover
-}
-
-.block_2 {
-  position: absolute;
-  visibility: hidden;
-  left: 1px;
-  font-size: 20px;
-  color: #CCC5B9;
-  top: 160px;
-  transition: all 1s;
-  width: 600px;
-  height: 400px;
-}
-
-.block_2 p {
-  padding: 110px 10px;
-  text-align: center;
-}
-
-.block_1:hover .block_2 {
-  visibility: visible;
-  transition: 3s;
-  width: 600px;
-  height: 400px;
-  background: rgba(0, 0, 0, 0.6);
-  border-radius: 120px;
-  -webkit-transition: 1s;
-  transform: translatey(-160px);
-  -webkit-transform: translatey(-160px);
-
-}
-
-.block_1:hover {
-  transition: 1s;
-  -webkit-transition: 0.6s;
-}
 .navbar {
   background: #FFFCF2;
-  margin-bottom: 100px;
+  margin-bottom: 70px;
+}
+
+.registration {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10%;
+  padding: 30px;
+  background: #CCC5B9;
+  border: 4px solid #FFFCF2;
+  border-radius: 30px;
+
+}
+
+.flex-contanier2 {
+  padding-top: 2%;
+  display: flex;
+  padding-bottom: 2%;
+  justify-content: space-evenly;
 }
 </style>

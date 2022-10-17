@@ -1,21 +1,26 @@
 <template>
-  <div class="dialog" v-if="show" @click.stop="hideDialog">
+  <div class="dialog" v-if="show" >
     <div @click.stop class="dialog__content">
       <slot></slot>
     </div>
-
+    <second-button @click.stop="hideDialog" style="height: 30px; width: 30px; margin: 20px; padding: 0">x</second-button>
   </div>
+
 </template>
 
 <script>
-
+import SecondButton from "@/components/SecondButton";
 export default {
+  components: {
+    SecondButton
+  },
   props:{
     show:{
       type: Boolean,
       default: false
     }
   },
+  // test
   methods:{
     hideDialog(){
       this.$emit('update:show', false)

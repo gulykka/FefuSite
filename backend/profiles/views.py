@@ -9,6 +9,11 @@ class ProfileApi(generics.ListCreateAPIView):
     serializer_class = SpecialUserSerializer
     permission_classes = [AllowAny]
 
+class PublicationDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Publication.objects.all()
+    serializer_class = PublicationSerializer
+    permission_classes = [AllowAny]
+
 
 class PublicationApi(generics.ListCreateAPIView):
     queryset = Publication.objects.order_by('id')

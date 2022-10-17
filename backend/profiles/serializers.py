@@ -47,3 +47,10 @@ class ServiceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Service
         fields = '__all__'
+
+
+class ProductCreateSerializer(serializers.ModelSerializer):
+    author = SpecialUserSerializer()
+    class Meta:
+        model = Publication
+        fields = '__all__   '
