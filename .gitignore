@@ -172,7 +172,7 @@ GitHub.sublime-settings
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-.history
-backend/backend/__pycache__/__init__.cpython-310.pyc
+/__pycache__
 
 backend/db.sqlite3
+*.pyc
