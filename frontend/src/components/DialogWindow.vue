@@ -20,6 +20,7 @@ export default {
       default: false
     }
   },
+  // test
   methods:{
     hideDialog(){
       this.$emit('update:show', false)
