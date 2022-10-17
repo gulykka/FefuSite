@@ -1,25 +1,22 @@
 <template>
   <div class="forma">
-    <h2>Добавление поста</h2>
-    <form @submit.prevent="createPost">
+    <h2 style="">Добавление поста</h2>
+    <form @submit.prevent="submitForm" class="forma">
       <input v-model="poster.content" placeholder="Текст публикации">
       <p>Категоря услуги</p>
       <select v-model="poster.categoryi" class="filter_item">
-        <option v-for="cat in category" v-bind:key="cat.id" v-bind:value="cat.title"> {{ cat.title }}</option>
+        <option v-for="cat in category" v-bind:key="cat.id" v-bind:value="cat.id"> {{ cat.title }}</option>
       </select>
       <p>Корпус</p>
       <select v-model="poster.building" class="filter_item">
-
-        <option v-for="bul in buildings" v-bind:key="bul.id" v-bind:value="bul.title"> {{ bul.title }}</option>
+        <option v-for="bul in buildings" v-bind:key="bul.id" v-bind:value="bul.id"> {{ bul.title }}</option>
       </select>
-
+      <p>Мастер/Клиент</p>
       <select v-model="poster.character">
         <option>Мастер</option>
         <option>Клиент</option>
-      </select>
+      </select><br>
       <second-button style="width: 200px; padding: 10px; color: #403D39; margin-left: 60px"
-
-
       >Добавить пост
       </second-button>
     </form>
@@ -29,6 +26,8 @@
 
 <script>
 import SecondButton from "@/components/SecondButton";
+import axios from "axios";
+import router from "@/router/router";
 
 export default {
   name: "PostForm",
@@ -58,16 +57,27 @@ export default {
     }
   },
   methods: {
-    async createPost() {
-      var responce = await fetch('http://127.0.0.1:8000/api/publications/', {
-        method: 'post',
-        headers: {
-          'Content-Type': 'aplication/json'
-        },
-        body: JSON.stringify(this.poster)
-      });
-      this.posts.push(await responce.json());
-      console.log(this.posts)
+    async submitForm() {
+      const formData = new FormData()
+      formData.append('author', this.$root.profile.id)
+      formData.append('building', this.poster.building)
+      formData.append('category', this.poster.categoryi)
+      formData.append('character', this.poster.character)
+      formData.append('content', this.poster.content)
+
+      await axios
+          .post('api/publications/', formData)
+          .then(response => {
+            this.$router.push({name: 'Posts', params: {slug: response.data.slug}})
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      this.poster.building = ''
+      this.poster.categoryi = ''
+      this.poster.character = ''
+      this.poster.content = ''
+      router.push('/myprofile')
     }
   }
 }
@@ -103,14 +113,15 @@ select {
 }
 
 h2 {
-  margin-left: 50px;
+  text-align: center;
   margin-bottom: 10px;
 }
 
 .forma {
-  margin: 30px;
+  margin: 20px;
   display: flex;
   flex-direction: column;
+
 }
 
 p {

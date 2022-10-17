@@ -3,30 +3,6 @@
       v-bind:category="category"
       v-bind:buildings="buildings"
   ></nav-bar>
-  <div class="forma">
-    <h2>Добавление поста</h2>
-    <form @submit.prevent="submitForm">
-      <input v-model="poster.content" placeholder="Текст публикации">
-      <p>Категория услуги</p>
-      <select v-model="poster.categoryi" class="filter_item">
-        <option v-for="cat in category" v-bind:key="cat.id" v-bind:value="cat.id"> {{ cat.title }}</option>
-      </select>
-      <p>Корпус</p>
-      <select v-model="poster.building" class="filter_item">
-        <option v-for="bul in buildings" v-bind:key="bul.id" v-bind:value="bul.id"> {{ bul.title }}</option>
-      </select>
-
-      <select v-model="poster.character">
-        <option>Мастер</option>
-        <option>Клиент</option>
-      </select>
-      <second-button style="width: 200px; padding: 10px; color: #403D39; margin-left: 60px"
-
-
-      >Добавить пост
-      </second-button>
-    </form>
-  </div>
   <div class="content">
     <div class="filter">
       <div>
@@ -49,9 +25,7 @@
         </select>
         <second-button @click="NoFilter" class="nofilter"> Сбросить фильтрацию</second-button>
       </div>
-
     </div>
-
 
     <div v-if="ThisAll">
       <div v-if="search === ''" class="sersis">
@@ -74,9 +48,7 @@
         </div>
       </div>
       <div v-else class="sersis">
-
         <div v-for="ser in sortedAndSearchedPosts" v-bind:key="ser.id">
-
           <div class="serves">
             <h3 class="servise_content">{{ ser.content }}</h3>
             <div v-if="ser.photo === null">
@@ -91,7 +63,6 @@
                 Корпус: {{ bul.title }}
               </div>
             </div>
-
           </div>
         </div>
       </div>
@@ -112,15 +83,15 @@
             <div v-for="bul in buildings" :key="bul.id">
               <div v-if="bul.id === ser.building">
                 Корпус: {{ bul.title }}
-
               </div>
             </div>
           </div>
         </template>
       </div>
+
       <div v-else-if="ChosenBuilding !== 0" class="sersis">
-        <div v-for="ser in services" :key="ser.id">
-          <template v-if="ser.building === ChosenBuilding">
+        <template v-for="ser in services" :key="ser.id">
+          <div v-if="ser.building === ChosenBuilding">
             <div class="serves">
               <h3 class="servise_content">{{ ser.content }}</h3>
               <div v-if="ser.photo === null">
@@ -136,8 +107,8 @@
                 </div>
               </div>
             </div>
-          </template>
-        </div>
+          </div>
+        </template>
       </div>
     </div>
 
@@ -163,10 +134,11 @@
           </div>
         </div>
       </div>
-      <div v-else>
+
+      <div v-else class="sersis">
         <template v-for="ser in services" :key="ser.id">
           <div v-if="ser.building === ChosenBuilding">
-            <div v-if="ser.category === ChosenCategory" class="sersis">
+            <div v-if="ser.category === ChosenCategory" >
               <div class="serves">
                 <h3 class="servise_content">{{ ser.content }}</h3>
                 <div v-if="ser.photo === null">
@@ -300,7 +272,7 @@ export default {
 
     async submitForm() {
       const formData = new FormData()
-      formData.append('author', this.$root.profile)
+      formData.append('author', this.$root.profile.id)
       formData.append('building', this.poster.building)
       formData.append('category', this.poster.categoryi)
       formData.append('character', this.poster.character)

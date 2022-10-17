@@ -1,24 +1,28 @@
 <template>
-  <nav-bar></nav-bar>
+  <nav-bar
+      v-bind:category="category"
+      v-bind:buildings="buildings"
+  ></nav-bar>
   <div class="myprofile">
     <div class="info prof ">
-      <h1>{{this.$root.profile.name}}</h1>
+      <h1>{{ this.$root.profile.name }}</h1>
       <div class="info_detail">
-        Номер телефона: {{this.$root.profile.phone_number}}<br>
-        Корпус: {{this.$root.profile.building}}
-      </div><br>
+        Номер телефона: {{ this.$root.profile.phone_number }}<br>
+        Корпус: {{ this.$root.profile.building }}
+      </div>
+      <br>
       <button style="font-size: 25px;">Выйти</button>
     </div>
     <div class="myservise prof">
       <h2>Мои услуги</h2>
       <div class="my__servises">
         <div v-for="ser in services" :key="ser.id">
-          <div v-if="ser.author.id === this.$root.profile.id">
+          <div v-if="ser.author === this.$root.profile.id">
             <div class="serves">
               <div class="my__servises_content">
                 {{ ser.content }}
               </div>
-              <img v-if="ser.photo === null" style=""
+              <img v-if="ser.photo === null"
                    src="@/assets/serves.png">
               <img v-else :src="ser.photo">
               <strong>{{ ser.character }}</strong>
@@ -43,24 +47,25 @@
 
 <script>
 import NavBar from "@/components/NavBar";
-// import SecondButton from "@/components/SecondButton";
 import axios from "axios";
 
 export default {
   name: "UserPage",
   components: {
     NavBar,
-    // SecondButton,
+
   },
   data() {
     return {
       services: [],
       buildings: [],
+      category: []
     }
   },
   mounted() {
     this.getServices()
     this.getBuildings()
+    this.getCategory()
   },
   methods: {
     getServices() {
@@ -83,6 +88,33 @@ export default {
         }
       }).then(responce => this.buildings = responce.data)
     },
+    getCategory() {
+      axios({
+        method: 'get',
+        url: 'http://127.0.0.1:8000/api/categories/',
+        auth: {
+          username: '0000',
+          password: '0000'
+        }
+      }).then(responce => this.category = responce.data)
+    },
+    async submitForm() {
+      const formData = new FormData()
+      formData.append('author', this.$root.profile.id)
+      formData.append('building', this.poster.building)
+      formData.append('category', this.poster.categoryi)
+      formData.append('character', this.poster.character)
+      formData.append('content', this.poster.content)
+
+      await axios
+          .post('api/publications/', formData)
+          .then(response => {
+            this.$router.push({name: 'Posts', params: {slug: response.data.slug}})
+          })
+          .catch(error => {
+            console.log(error)
+          })
+    }
   },
 
 }
@@ -134,10 +166,12 @@ img {
   margin-left: 40px;
   width: 130px;
 }
+
 .my__servises_content {
   text-align: center;
   height: 40px;
 }
+
 .info_detail {
   font-size: 20px;
 }
@@ -148,10 +182,12 @@ footer {
   margin-top: 150px;
   padding-left: 50%;
 }
+
 h2 {
   padding-left: 180px;
   padding-bottom: 35px;
 }
+
 button {
   background: none;
   border: 3px solid #403D39;
@@ -160,10 +196,12 @@ button {
   transition: all 1s;
   padding: 2px;
 }
+
 button:hover {
   color: #EB5E28;
   box-shadow: 1px 1px 5px #EB5E28;
 }
+
 .prof {
   padding: 20px;
 }

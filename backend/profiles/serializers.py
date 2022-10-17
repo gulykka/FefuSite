@@ -15,11 +15,13 @@ class ProfileUpdateSerializer(serializers.ModelSerializer):
 
 
 class PublicationSerializer(serializers.ModelSerializer):
-    author = SpecialUserSerializer()
+    author = Profile.objects.all()
+    def create(self, validated_data):
+        return Publication.objects.create(**validated_data)
+
     class Meta:
         model = Publication
         fields = '__all__'
-
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
@@ -38,9 +40,3 @@ class ServiceSerializer(serializers.ModelSerializer):
         model = Service
         fields = '__all__'
 
-
-class ProductCreateSerializer(serializers.ModelSerializer):
-    author = SpecialUserSerializer()
-    class Meta:
-        model = Publication
-        fields = '__all__   '

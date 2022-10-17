@@ -3,16 +3,17 @@
     <div @click.stop class="dialog__content">
       <slot></slot>
     </div>
-    <second-button @click.stop="hideDialog" style="height: 30px; width: 30px; margin: 20px; padding: 0">x</second-button>
+    <img @click.stop="hideDialog" src="@/assets/krest.png" style="width: 40px; height: 40px; padding: 10px">
+
   </div>
 
 </template>
 
 <script>
-import SecondButton from "@/components/SecondButton";
+
 export default {
   components: {
-    SecondButton
+
   },
   props:{
     show:{

@@ -6,4 +6,5 @@ urlpatterns = [
     path('publications/', PublicationApi.as_view()),
     path('profiles/', ProfileApi.as_view()),
     path('categories/', CategoryApi.as_view()),
+    path('service/', ServiceApi.as_view())
 ]

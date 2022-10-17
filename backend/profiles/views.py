@@ -31,3 +31,9 @@ class BuildingsList(generics.ListAPIView):
     queryset = Building.objects.order_by('id')
     serializer_class = BuildingSerializer
     permission_classes = [AllowAny]
+
+
+class ServiceApi(generics.ListCreateAPIView):
+    queryset = Service.objects.order_by('id')
+    serializer_class = ServiceSerializer
+    permission_classes = [AllowAny]
