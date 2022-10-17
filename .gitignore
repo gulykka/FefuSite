@@ -38,7 +38,6 @@ node_modules/
 # Django #
 *.log
 *.pot
-*.pyc
 __pycache__/
 db.sqlite3
 media
@@ -175,5 +174,4 @@ GitHub.sublime-settings
 backend/backend/__pycache__/__init__.cpython-310.pyc
 
 backend/db.sqlite3
-backend/db.sqlite3
-*.sqlite3
+*.xml
