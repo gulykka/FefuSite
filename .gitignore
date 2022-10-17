@@ -27,11 +27,10 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
-HEAD
+
 *.sqlite3
 
 node_modules/
-67db5dafc1d3b590de3fb5f71082f75e5b65dd66
 
 # End of https://www.toptal.com/developers/gitignore/api/windows
 .venv/
@@ -39,11 +38,9 @@ node_modules/
 # Django #
 *.log
 *.pot
-*.pyc
-__pycache__/
+__pycache__
 db.sqlite3
 media
-migrations
 
 # Backup files #
 *.bak
@@ -61,7 +58,7 @@ migrations
 
 # Generated files
 .idea/**/contentModel.xml
-migrations
+
 # Sensitive or high-churn files
 .idea/**/dataSources/
 .idea/**/dataSources.ids
@@ -177,3 +174,4 @@ GitHub.sublime-settings
 backend/backend/__pycache__/__init__.cpython-310.pyc
 
 backend/db.sqlite3
+*.xml
