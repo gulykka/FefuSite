@@ -9,6 +9,7 @@ class ProfileApi(generics.ListCreateAPIView):
     serializer_class = SpecialUserSerializer
     permission_classes = [AllowAny]
 
+
 class PublicationDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Publication.objects.all()
     serializer_class = PublicationSerializer
@@ -17,12 +18,6 @@ class PublicationDetail(generics.RetrieveUpdateDestroyAPIView):
 
 class PublicationApi(generics.ListCreateAPIView):
     queryset = Publication.objects.order_by('id')
-    serializer_class = PublicationSerializer
-    permission_classes = [AllowAny]
-
-
-class PublicationDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Publication.objects.all()
     serializer_class = PublicationSerializer
     permission_classes = [AllowAny]
 
@@ -36,4 +31,10 @@ class CategoryApi(generics.ListAPIView):
 class BuildingsList(generics.ListAPIView):
     queryset = Building.objects.order_by('id')
     serializer_class = BuildingSerializer
+    permission_classes = [AllowAny]
+
+
+class ServiceApi(generics.ListCreateAPIView):
+    queryset = Service.objects.order_by('id')
+    serializer_class = ServiceSerializer
     permission_classes = [AllowAny]

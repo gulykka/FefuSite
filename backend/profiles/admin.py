@@ -9,7 +9,7 @@ class ProfileAdmin(admin.ModelAdmin):
 
 
 class PublicationAdmin(admin.ModelAdmin):
-    list_display = ('id', 'author', 'character', 'category', 'content', 'created_at', 'update_at', 'photo',)
+    list_display = ('id', 'author', 'character', 'category', 'content', 'created_at', 'update_at', 'photo', 'reaction')
     list_display_links = ('id', 'author')
     search_fields = ('content',)
 
@@ -27,8 +27,8 @@ class BuildingsAdmin(admin.ModelAdmin):
 
 
 class ServiceAdmin(admin.ModelAdmin):
-    list_display = ['user', 'status', 'created', 'updated']
-    list_filter = ['status', 'created', 'updated']
+    list_display = ['user', 'created', 'updated']
+    list_filter = ['created', 'updated']
 
 
 admin.site.register(Profile, ProfileAdmin)

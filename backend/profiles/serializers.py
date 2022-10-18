@@ -25,12 +25,6 @@ class PublicationSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class ProductCreateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Publication
-        fields = '__all__'
-
-
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
@@ -44,6 +38,14 @@ class BuildingSerializer(serializers.ModelSerializer):
 
 
 class ServiceSerializer(serializers.ModelSerializer):
+    publication = PublicationSerializer()
+
     class Meta:
         model = Service
         fields = '__all__'
+
+    def update(self, instance, validated_data):
+        instance.status = validated_data.get('status', instance.status)
+
+    def create(self, validated_data):
+        return Service.objects.create(**validated_data)

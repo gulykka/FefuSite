@@ -55,7 +55,8 @@ export default {
     buildings:{
       type: Array,
       required: true
-    }
+    },
+
   },
   data() {
     return {

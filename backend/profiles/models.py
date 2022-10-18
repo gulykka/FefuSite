@@ -56,6 +56,18 @@ class Publication(models.Model):
     character = models.CharField(max_length=8, choices=[(CUSTOMER, 'Клиент'), (MASTER, 'Мастер')], default=CUSTOMER,
                                  verbose_name='Роль', )
 
+    DISPOSABLE = 'Одноразовый'
+    REUSABLE = 'Многоразовый'
+    amount = models.CharField(max_length=20, choices=[(DISPOSABLE, 'Одноразовый'), (REUSABLE, 'Многоразовый')],
+                              default=DISPOSABLE,
+                              verbose_name='Разовость', )
+    SENT = 'sent'
+    APPROVED = 'approved'
+    DECLINED = 'declined'
+    reaction = models.CharField(max_length=20, choices=[(SENT, 'sent'), (APPROVED, 'approved'), (DECLINED, 'declined')],
+                                default=SENT,
+                                verbose_name='Реакция', )
+
     def __str__(self):
         return self.content
 
@@ -76,7 +88,6 @@ class Service(models.Model):
     publication = models.ForeignKey('Publication', on_delete=models.PROTECT, null=True, verbose_name='Пост')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
-    status = models.CharField(max_length=8, choices=STATUS, default='sent')
 
     class Meta:
         ordering = ('-created',)
